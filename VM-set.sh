@@ -21,6 +21,45 @@ else
   echo "Nothing to Do: BOOTPROTO set to NONE"
 fi
 
+grep "\[yes\]" /sys/kernel/mm/redhat_transparent_hugepage/khugepaged/defrag
+if [ $? -eq 0 ]; then
+  echo "Updating Redhat Transparent Hugepage/khugepaged/defrag settings."
+  echo no > /sys/kernel/mm/redhat_transparent_hugepage/khugepaged/defrag
+  grep "echo no > /sys/kernel/mm/redhat_transparent_hugepage/khugepaged/defrag" /etc/rc.local
+  if [ $? -eq 0 ]; then
+    echo "echo no > /sys/kernel/mm/redhat_transparent_hugepage/khugepaged/defrag" >> /etc/rc.local
+  fi
+else
+  echo "Redhat Transparent Hugepage/khugepaged/defrag is already updated."
+fi
+
+grep "\[always\]" /sys/kernel/mm/redhat_transparent_hugepage/enabled
+if [ $? -eq 0 ]; then
+  echo "Updating Redhat Transparent Hugepage/enabled settings."
+  echo never > /sys/kernel/mm/redhat_transparent_hugepage/enabled
+  grep "echo never > /sys/kernel/mm/redhat_transparent_hugepage/enabled" /etc/rc.local
+  if [ $? -eq 0 ]; then
+    echo "echo never > /sys/kernel/mm/redhat_transparent_hugepage/enabled" >> /etc/rc.local
+    echo "Added Redhat THP/enabled to rc.local"
+  fi
+else
+  echo "Redhat Transparent Hugepage/enabled is already updated."
+fi
+
+grep "\[always\]" /sys/kernel/mm/redhat_transparent_hugepage/defrag
+if [ $? -eq 0 ]; then
+  echo "Updating Redhat Transparent Hugepage/defrag settings."
+  echo never > /sys/kernel/mm/redhat_transparent_hugepage/defrag
+  grep "echo never > /sys/kernel/mm/redhat_transparent_hugepage/defrag" /etc/rc.local
+  if [ $? -eq 0 ]; then
+    echo "echo never > /sys/kernel/mm/redhat_transparent_hugepage/defrag" >> /etc/rc.local
+    echo "Added Redhat THP/defrag to rc.local"
+  fi
+else
+  echo "Redhat Transparent Hugepage/enabled is already updated."
+fi
+
+
 grep 'IPADDR=' /etc/sysconfig/network-scripts/ifcfg-eth1
 if [ $? -eq 1 ]; then
     echo "IPADDR=$ip" >> /etc/sysconfig/network-scripts/ifcfg-eth1
