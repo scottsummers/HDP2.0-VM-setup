@@ -138,7 +138,7 @@ copySSHKey() {
 
 kickoffAmbariInstall() {
   if [ `hostname` = "ambari" ]; then
-    wget http://public-repo-1.hortonworks.com/ambari/centos6/1.x/updates/1.4.1.25/ambari.repo
+    wget http://public-repo-1.hortonworks.com/ambari/centos6/1.x/updates/1.5.1/ambari.repo
     cp ambari.repo /etc/yum.repos.d
     yum repolist
     yum -y install ambari-server
